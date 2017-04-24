@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>LOCAL CALC CLIENT</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Calculator</h2>
+        <p>
+            Add&nbsp;<input id="valueA" type="text" />&nbsp;and
+            &nbsp;<input id="valueB" type="text" />&nbsp;
+            <input id="btnEquals" type="button" value="=" />
+            &nbsp;<input id="valueC" type="text" />&nbsp;
+        </p>
+    </div>
+</div>
+<script type="text/javascript">
+    function OnButtonClick()
+    {
+        var a = parseInt($('#valueA').val());
+        var b = parseInt($('#valueB').val());
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://demoGAB2017.azure-api.net/calc/api/Calc/Add?a=" + a + "&b=" + b,
+            "method": "GET",
+            "headers": {
+                "Ocp-Apim-Subscription-Key": "<your API MGMT API key>",
+                "cache-control": "no-cache",
+            }
+        }
+        $.ajax(settings).done(function (doc,txt,xhr) {
+            $("#valueC")[0].value = doc;
+        }).fail(function (xhr) {
+            alert(xhr.statusText);
+        });
+    }
+    $(document).ready(function () {
+        $("#btnEquals").click(OnButtonClick);
+    });
+</script>
